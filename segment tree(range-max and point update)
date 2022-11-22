@@ -29,7 +29,11 @@ class sgTree{
             }
         }
         void update(int uind,int val,int l,int r,int ind){
-            if(l==r)sg[ind]=val;
+            if(l==r)
+            {
+                sg[ind]=val;
+                return;
+            }
             int mid=(l+r)/2;
             if(uind<=mid){
                 update(uind,val,l,mid,ind*2+1);
