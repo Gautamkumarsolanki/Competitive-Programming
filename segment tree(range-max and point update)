@@ -1,0 +1,41 @@
+class sgTree{
+    public:
+        vector<int> sg;
+        sgTree(int n){
+            sg.resize(4*n);
+        }
+        void create(vector<int> a,int l,int r,int ind){
+            if(l==r){
+                sg[ind]=a[l];
+                return;
+            }
+            int mid=(l+r)/2;
+            create(a,l,mid,ind*2+1);
+            create(a,mid+1,r,ind*2+2);
+            sg[ind]=max(sg[ind*2+1],sg[ind*2+2]);
+        }
+        int query(int l1,int r1,int ind,int l,int r){
+            if(l==l1 && r==r1){
+                return sg[ind];
+            }
+            int mid=(l+r)/2;
+            if(r1<=mid){
+                return query(l1,r1,ind*2+1,l,mid);
+            }
+            else if(l1>mid){
+                return query(l1,r1,ind*2+2,mid+1,r);
+            }else{
+                return max(query(l1,mid,ind*2+1,l,mid),query(mid+1,r1,ind*2+2,mid+1,r));
+            }
+        }
+        void update(int uind,int val,int l,int r,int ind){
+            if(l==r)sg[ind]=val;
+            int mid=(l+r)/2;
+            if(uind<=mid){
+                update(uind,val,l,mid,ind*2+1);
+            }else{
+                update(uind,val,mid+1,r,ind*2+2);
+            }
+            sg[ind]=max(sg[ind*2+1],sg[ind*2+2]);
+        }
+};
